@@ -1,10 +1,18 @@
 const prisma = require("../db/prisma");
 
 class UserService {
-  static createUser = async (name, username, email, password, role) => {
+  static createUser = async (
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    role
+  ) => {
     await prisma.user.create({
       data: {
-        name: name,
+        firstName: firstName,
+        lastName: lastName,
         username: username,
         email: email,
         password: password,
