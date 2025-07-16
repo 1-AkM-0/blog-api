@@ -2,8 +2,10 @@ const UserServices = require("../services/userQueries");
 
 class UserController {
   static postUser = async (req, res) => {
-    await UserServices.createUser();
-    res.json({ message: "deu bom" });
+    const { name, username, email, password } = req.body;
+    
+    await UserServices.createUser((name, username, email, password, role));
+    res.json({ message: "user created" });
   };
 
   static getUsers = async (req, res) => {
@@ -18,9 +20,17 @@ class UserController {
   };
 
   static putUser = async (req, res) => {
-    const { id, username, password } = req.body;
+    const { userId } = parseInt(req.params);
+    const { username, password } = req.body;
     await UserServices.updateUser(id, username, password);
-    res.json({ message: "usuário atualizado" });
+    res.json({ message: "user updated" });
+  };
+
+  static deleteUser = async (req, res) => {
+    const { userId } = parseInt(req.params);
+
+    await UserServices.deleteUser(userId);
+    res.json({ message: "user deleted" });
   };
 }
 

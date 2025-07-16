@@ -40,6 +40,18 @@ class UserService {
       where: { id: id },
     });
   };
+  static findUserByEmail = async (email) => {
+    const user = await prisma.user.findFirst({
+      where: { email: email },
+    });
+    return user;
+  };
+  static findUserByUsername = async (username) => {
+    const user = await prisma.user.findFirst({
+      where: { username: username },
+    });
+    return user;
+  };
 }
 
 module.exports = UserService;

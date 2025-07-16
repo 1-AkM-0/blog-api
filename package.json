@@ -17,7 +17,8 @@
     "express-session": "^1.18.1",
     "passport": "^0.7.0",
     "pg": "^8.16.3",
-    "prisma": "^6.11.1"
+    "prisma": "^6.11.1",
+    "express-validator": "^7.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
