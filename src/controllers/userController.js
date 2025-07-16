@@ -2,9 +2,19 @@ const UserServices = require("../services/userQueries");
 
 class UserController {
   static postUser = async (req, res) => {
-    const { name, username, email, password } = req.body;
-    
-    await UserServices.createUser((name, username, email, password, role));
+    const { firstName, lastName, username, email, password } = req.body;
+    const role = req.body.role || "BASIC";
+    console.log(firstName, lastName, username, email, password, role);
+
+    await UserServices.createUser(
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      role
+    );
+
     res.json({ message: "user created" });
   };
 

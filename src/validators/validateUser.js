@@ -1,9 +1,9 @@
-const { body, validationResult } = require("express-validator");
+const { body, validationResult, check } = require("express-validator");
 const UserService = require("../services/userQueries");
 
 const validateUser = [
   body("firstName")
-    .isEmpty()
+    .notEmpty()
     .withMessage("Must have a First name")
     .trim()
     .isAlpha()
@@ -11,7 +11,7 @@ const validateUser = [
     .isLength({ min: 1, max: 10 })
     .withMessage("First name must between 1 and 10 characters"),
   body("lastName")
-    .isEmpty()
+    .notEmpty()
     .withMessage("Must have a Last name")
     .trim()
     .isAlpha()
@@ -19,7 +19,8 @@ const validateUser = [
     .isLength({ min: 1, max: 10 })
     .withMessage("Last name must between 1 and 10 characters"),
   body("username")
-    .isEmpty("Must have a username")
+    .notEmpty()
+    .withMessage("Must have a username")
     .trim()
     .escape()
     .custom(async (value) => {
@@ -30,7 +31,7 @@ const validateUser = [
     }),
 
   body("email")
-    .isEmpty()
+    .notEmpty()
     .withMessage("Must have a email")
     .trim()
     .isEmail()
@@ -41,17 +42,23 @@ const validateUser = [
       if (user) {
         throw new Error("Email already in use");
       }
-    }),
+    })
+    .escape(),
 
-  body("password").trim().isLength({ min: 8 }),
-  body("passwordConfirmation").custom((value) => {
-    return req.body.password === value;
-  }),
-  body("role")
-    .trim()
-    .custom((value) => {
-      if (value !== "ADMIN" && value !== "BASIC") {
-        return false;
-      }
-    }),
+  body("password").trim().isLength({ min: 8 }).escape(),
+
+  body("passwordConfirmation").custom(
+    (value, { req }) => value === req.body.password
+  ),
+  body("role").trim().isIn(["ADMIN", "BASIC", ""]),
 ];
+
+const checkRules = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
+
+module.exports = { validateUser, checkRules };
