@@ -1,10 +1,18 @@
 const prisma = require("../db/prisma");
 
 class UserService {
-  static createUser = async (name, username, email, password, role) => {
+  static createUser = async (
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+    role
+  ) => {
     await prisma.user.create({
       data: {
-        name: name,
+        firstName: firstName,
+        lastName: lastName,
         username: username,
         email: email,
         password: password,
@@ -39,6 +47,18 @@ class UserService {
     await prisma.user.delete({
       where: { id: id },
     });
+  };
+  static findUserByEmail = async (email) => {
+    const user = await prisma.user.findFirst({
+      where: { email: email },
+    });
+    return user;
+  };
+  static findUserByUsername = async (username) => {
+    const user = await prisma.user.findFirst({
+      where: { username: username },
+    });
+    return user;
   };
 }
 
