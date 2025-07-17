@@ -1,11 +1,12 @@
 const UserServices = require("../services/userQueries");
+const bcrypt = require("bcryptjs");
 
 class UserController {
   static postUser = async (req, res) => {
-    const { firstName, lastName, username, email, password } = req.body;
+    let { firstName, lastName, username, email, password } = req.body;
     const role = req.body.role || "BASIC";
+    password = await bcrypt.hash(password, 10);
     console.log(firstName, lastName, username, email, password, role);
-
     await UserServices.createUser(
       firstName,
       lastName,
@@ -30,14 +31,16 @@ class UserController {
   };
 
   static putUser = async (req, res) => {
-    const { userId } = parseInt(req.params);
+    let { userId } = req.params;
+    userId = parseInt(userId);
     const { username, password } = req.body;
     await UserServices.updateUser(id, username, password);
     res.json({ message: "user updated" });
   };
 
   static deleteUser = async (req, res) => {
-    const { userId } = parseInt(req.params);
+    let { userId } = req.params;
+    userId = parseInt(userId);
 
     await UserServices.deleteUser(userId);
     res.json({ message: "user deleted" });
