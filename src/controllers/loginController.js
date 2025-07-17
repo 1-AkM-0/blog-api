@@ -5,7 +5,7 @@ const authenticate = (req, res) => {
   const acessToken = jwt.sign(
     {
       id: user.id,
-      isAdmin: user.role,
+      role: user.role,
     },
     process.env.JWT_SECRET
   );

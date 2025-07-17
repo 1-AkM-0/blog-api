@@ -25,8 +25,9 @@ class UserController {
   };
 
   static getUser = async (req, res) => {
-    const { id } = req.body;
-    const user = await UserServices.getUser(id);
+    let { userId } = req.params;
+    userId = parseInt(userId);
+    const user = await UserServices.getUser(userId);
     res.json(user);
   };
 
