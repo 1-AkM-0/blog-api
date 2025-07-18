@@ -1,5 +1,6 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const JwtStrategy = require("passport-jwt").Strategy;
 const bcrypt = require("bcryptjs");
 const UserService = require("../services/userQueries");
 
@@ -22,5 +23,7 @@ passport.use(
     }
   })
 );
+
+passport.use(new JwtStrategy());
 
 module.exports = passport;
