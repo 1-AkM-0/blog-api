@@ -1,14 +1,8 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const { generateAcessToken } = require("../utils/genAcessToken");
+
 const authenticate = (req, res) => {
   const { user } = req;
-  const acessToken = jwt.sign(
-    {
-      id: user.id,
-      role: user.role,
-    },
-    process.env.JWT_SECRET
-  );
+  const acessToken = generateAcessToken(user);
   res.json({
     username: user.username,
     role: user.role,

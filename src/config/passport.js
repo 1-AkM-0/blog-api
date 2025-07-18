@@ -24,6 +24,6 @@ passport.use(
   })
 );
 
-passport.use(new JwtStrategy());
+// passport.use(new JwtStrategy());
 
 module.exports = passport;
