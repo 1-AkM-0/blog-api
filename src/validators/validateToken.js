@@ -8,7 +8,7 @@ const validateToken = [
     .custom(async (refreshToken) => {
       const tokenDb = await TokenServices.getToken(refreshToken);
       if (!tokenDb) {
-        return Promise.reject("Token not found");
+        throw new Error("Token not found");
       }
       return true;
     }),
