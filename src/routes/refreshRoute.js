@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const refreshRouter = Router();
 const refreshController = require("../controllers/refreshController");
-const { verify } = require("../middlewares/verifyJWT");
+const { verifyJwt } = require("../middlewares/verifyJWT");
 
-refreshRouter.post("/", verify, refreshController.refresh);
+refreshRouter.post("/", verifyJwt, refreshController.refresh);
 
 module.exports = refreshRouter;
