@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const userRouter = Router();
 const UserController = require("../controllers/userController");
-const createUserValidator = require("../validators/validateUser");
+const { validateUser, checkRules } = require("../validators/validateUser");
 const { verifyJwt } = require("../middlewares/verifyJWT");
 const isAuthorized = require("../middlewares/isAuthorized");
 
@@ -14,12 +14,7 @@ userRouter.get(
   UserController.getUser
 );
 
-userRouter.post(
-  "/",
-  createUserValidator.validateUser,
-  createUserValidator.checkRules,
-  UserController.postUser
-);
+userRouter.post("/", validateUser, checkRules, UserController.postUser);
 
 userRouter.put(
   "/:userId",
