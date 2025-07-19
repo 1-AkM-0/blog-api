@@ -20,6 +20,7 @@ class UserController {
   };
 
   static getUsers = async (req, res) => {
+    console.log(req.body.token);
     const users = await UserServices.getAllUsers();
     res.json(users);
   };

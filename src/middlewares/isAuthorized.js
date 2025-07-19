@@ -1,4 +1,4 @@
-class isAuthor {
+class isAuth {
   static isAdmin = (req, res, next) => {
     if (req.user.role !== "ADMIN") {
       res.status(403).json({ message: "You dont have permission to this" });
@@ -13,4 +13,4 @@ class isAuthor {
     res.status(403).json({ message: "You dont have permission to this" });
   };
 }
-module.exports = isAuthor;
+module.exports = isAuth;

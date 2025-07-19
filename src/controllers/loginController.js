@@ -1,12 +1,17 @@
-const { generateAcessToken } = require("../utils/genAcessToken");
+const TokenServices = require("../services/tokenQueries");
+const genJwtTokens = require("../utils/genJwtTokens");
 
-const authenticate = (req, res) => {
+const authenticate = async (req, res) => {
   const { user } = req;
-  const acessToken = generateAcessToken(user);
+  // console.log(user);
+  const acessToken = genJwtTokens.generateAcessToken(user);
+  const refreshToken = genJwtTokens.generateRefreshToken(user);
+  await TokenServices.insertToken(user.id, refreshToken);
   res.json({
     username: user.username,
     role: user.role,
     acessToken,
+    refreshToken,
   });
 };
 
