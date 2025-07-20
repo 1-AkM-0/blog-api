@@ -17,7 +17,7 @@ const verifyJwt = (req, res, next) => {
       next();
     });
   } else {
-    res.status(401).json({ message: "You are no authenticated" });
+    return res.status(401).json({ message: "You are not authenticated" });
   }
 };
 

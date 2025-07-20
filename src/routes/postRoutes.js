@@ -1,16 +1,37 @@
-// const { Router } = require("express");
-// const postRouter = Router();
-// const postController = require("../controllers/postController");
+const { Router } = require("express");
+const postRouter = Router();
+const PostController = require("../controllers/postController");
+const { verifyJwt } = require("../middlewares/verifyJWT");
+const { isAdmin } = require("../middlewares/isAuthorized");
+const {
+  validatePost,
+  checkRules,
+} = require("../validators/validateCreatePost");
+const { validateUpdatePost } = require("../validators/validateUpdatePost");
 // const commentController = require("../controllers/commentController");
 
-// // postRouter.get("/");
-// // postRouter.get("/:id");
-// // postRouter.post("/");
-// // postRouter.delete("/:id");
-// // postRouter.put("/:id");
+postRouter.get("/", verifyJwt, PostController.getPosts);
+postRouter.get("/:postId", verifyJwt, PostController.getPost);
+postRouter.post(
+  "/",
+  verifyJwt,
+  isAdmin,
+  validatePost,
+  checkRules,
+  PostController.postPosts
+);
+postRouter.delete("/:postId", verifyJwt, isAdmin, PostController.deletePost);
+postRouter.patch(
+  "/:postId",
+  verifyJwt,
+  isAdmin,
+  validateUpdatePost,
+  checkRules,
+  PostController.putPost
+);
 
 // // postRouter.post("/:postId/comments");
 // // postRouter.put("/:postId/comments/:commentId");
 // // postRouter.delete("/:postId/comments/:commentId");
 
-// module.exports = postRouter;
+module.exports = postRouter;
