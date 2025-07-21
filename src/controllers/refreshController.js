@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const TokenServices = require("../services/tokenQueries");
 const genJwtTokens = require("../utils/genJwtTokens");
 
 const refresh = async (req, res) => {

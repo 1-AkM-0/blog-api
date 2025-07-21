@@ -20,7 +20,6 @@ class UserController {
   };
 
   static getUsers = async (req, res) => {
-    console.log(req.body.token);
     const users = await UserServices.getAllUsers();
     res.json(users);
   };
@@ -35,8 +34,10 @@ class UserController {
   static putUser = async (req, res) => {
     let { userId } = req.params;
     userId = parseInt(userId);
-    const { username, password } = req.body;
-    await UserServices.updateUser(id, username, password);
+
+    let { username, password } = req.body;
+    password = await bcrypt.hash(password, 10);
+    await UserServices.updateUser(userId, username, password);
     res.json({ message: "user updated" });
   };
 
