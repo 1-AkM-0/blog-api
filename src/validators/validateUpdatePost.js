@@ -1,5 +1,4 @@
 const { body, validationResult } = require("express-validator");
-const PostServices = require("../services/postQueries");
 
 const validateUpdatePost = [
   body("title").optional().notEmpty().isString().escape(),
@@ -15,4 +14,4 @@ const checkRules = (req, res, next) => {
   next();
 };
 
-module.exports = { validatePost: validateUpdatePost, checkRules };
+module.exports = { validateUpdatePost, checkRules };

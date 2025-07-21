@@ -13,7 +13,7 @@ class PostController {
     let { postId } = req.params;
     postId = parseInt(postId);
     try {
-      const post = await postQueries.getUnique(postId);
+      const post = await postQueries.getPostById(postId);
       res.json({ post });
     } catch (error) {
       res.status(500).json({ message: "Database error" });

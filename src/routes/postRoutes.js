@@ -1,14 +1,14 @@
 const { Router } = require("express");
 const postRouter = Router();
 const PostController = require("../controllers/postController");
+const CommentController = require("../controllers/commentController");
 const { verifyJwt } = require("../middlewares/verifyJWT");
-const { isAdmin } = require("../middlewares/isAuthorized");
+const { isAdmin, authoComment } = require("../middlewares/isAuthorized");
 const {
   validatePost,
   checkRules,
 } = require("../validators/validateCreatePost");
 const { validateUpdatePost } = require("../validators/validateUpdatePost");
-// const commentController = require("../controllers/commentController");
 
 postRouter.get("/", verifyJwt, PostController.getPosts);
 postRouter.get("/:postId", verifyJwt, PostController.getPost);
@@ -30,8 +30,23 @@ postRouter.patch(
   PostController.putPost
 );
 
-// // postRouter.post("/:postId/comments");
-// // postRouter.put("/:postId/comments/:commentId");
-// // postRouter.delete("/:postId/comments/:commentId");
+postRouter.post(
+  "/:postId/comments",
+  verifyJwt,
+  authoComment,
+  CommentController.postComment
+);
+postRouter.patch(
+  "/:postId/comments/:commentId",
+  verifyJwt,
+  authoComment,
+  CommentController.patchComment
+);
+postRouter.delete(
+  "/:postId/comments/:commentId",
+  verifyJwt,
+  authoComment,
+  CommentController.deleteComment
+);
 
 module.exports = postRouter;
