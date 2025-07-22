@@ -26,12 +26,12 @@ class isAuth {
     const { token: refreshToken } = req.body;
     const tokenDb = await TokenServices.getToken(refreshToken);
 
-    if (tokenDb.userId !== user.id || user.role !== "ADMIN") {
-      return res
-        .status(403)
-        .json({ message: "You dont have permission to do this" });
+    if (tokenDb.userId === user.id || user.role === "ADMIN") {
+      return next();
     }
-    next();
+    return res
+      .status(403)
+      .json({ message: "You dont have permission to do this" });
   };
 
   static authoComment = async (req, res, next) => {
@@ -42,12 +42,12 @@ class isAuth {
     if (!comment) {
       return res.status(403).json({ message: "Resourse dont found" });
     }
-    if (comment.authorId !== user.id || user.role !== "ADMIN") {
-      return res
-        .status(403)
-        .json({ message: "You dont have permission to do this" });
+    if (comment.authorId === user.id || user.role === "ADMIN") {
+      return next();
     }
-    next();
+    return res
+      .status(403)
+      .json({ message: "You dont have permission to do this" });
   };
 }
 module.exports = isAuth;

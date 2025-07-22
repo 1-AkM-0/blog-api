@@ -9,6 +9,7 @@ const {
   checkRules,
 } = require("../validators/validateCreatePost");
 const { validateUpdatePost } = require("../validators/validateUpdatePost");
+const { validateCreateComment } = require("../validators/validadeComment");
 
 postRouter.get("/", verifyJwt, PostController.getPosts);
 postRouter.get("/:postId", verifyJwt, PostController.getPost);
@@ -33,18 +34,22 @@ postRouter.patch(
 postRouter.post(
   "/:postId/comments",
   verifyJwt,
-  authoComment,
+  validateCreateComment,
+  checkRules,
   CommentController.postComment
 );
 postRouter.patch(
   "/:postId/comments/:commentId",
   verifyJwt,
+
+  checkRules,
   authoComment,
   CommentController.patchComment
 );
 postRouter.delete(
   "/:postId/comments/:commentId",
   verifyJwt,
+
   authoComment,
   CommentController.deleteComment
 );
